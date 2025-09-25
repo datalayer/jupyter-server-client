@@ -1,0 +1,20 @@
+# Test dependencies for jupyter-server-client
+# These are additional dependencies needed only for testing
+
+# Testing framework (alternative to pytest for simpler setup)
+# pytest>=7.0.0
+# pytest-asyncio>=0.21.0
+# pytest-mock>=3.10.0
+
+# For now, using unittest (built-in) to avoid external dependencies
+# Uncomment above lines if you want to use pytest instead
+
+# HTTP testing utilities
+responses>=0.23.0
+
+# Coverage reporting (optional)
+coverage>=7.0.0
+
+# Code quality (optional)
+flake8>=6.0.0
+black>=23.0.0

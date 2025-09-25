@@ -1,0 +1,154 @@
+[build-system]
+requires = [
+    "hatchling>=1.5",
+]
+build-backend = "hatchling.build"
+
+[project]
+name = "jupyter-server-client"
+version = "0.1.0"
+description = "A client library for interacting with Jupyter servers - focused on server management and kernel listing"
+readme = "README.md"
+license = { file = "LICENSE" }
+authors = [
+    { name = "Datalayer", email = "info@datalayer.io" }
+]
+requires-python = ">=3.8"
+classifiers = [
+    "Framework :: Jupyter",
+    "Framework :: Jupyter :: JupyterLab",
+    "Framework :: Jupyter :: JupyterLab :: 4",
+    "Intended Audience :: Developers",
+    "Intended Audience :: System Administrators",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: BSD License",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+dependencies = [
+    "requests>=2.25.0",
+    "pydantic>=2.0.0",
+    "typing-extensions>=4.0.0;python_version<'3.10'",
+]
+keywords = ["jupyter", "server", "client", "datalayer", "kernels"]
+
+[project.optional-dependencies]
+# Integration with existing Datalayer clients
+nbmodel = ["jupyter-nbmodel-client>=0.11.0"]
+kernel = ["jupyter-kernel-client>=0.6.0"]
+full = ["jupyter-nbmodel-client>=0.11.0", "jupyter-kernel-client>=0.6.0"]
+
+test = [
+    "pytest>=6.0",
+    "pytest-asyncio>=0.21.0",
+    "httpx>=0.24.0",
+    "respx>=0.20.0",
+    "jupyter-nbmodel-client>=0.11.0",
+    "jupyter-kernel-client>=0.6.0",
+]
+lint = [
+    "pre-commit>=3.0.0",
+]
+typing = [
+    "mypy>=1.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/datalayer/jupyter-server-client"
+Documentation = "https://github.com/datalayer/jupyter-server-client#readme"
+Repository = "https://github.com/datalayer/jupyter-server-client.git"
+Issues = "https://github.com/datalayer/jupyter-server-client/issues"
+
+# Tool configurations
+
+[tool.ruff]
+target-version = "py38"
+line-length = 100
+select = [
+    "A", "B", "C", "DTZ", "E", "EM", "F", "FBT", "I", "ICN", "ISC", "N",
+    "PLC", "PLE", "PLR", "PLW", "Q", "RUF", "S", "SIM", "T", "TID", "UP",
+    "W", "YTT",
+]
+ignore = [
+    # Allow non-abstract empty methods in abstract base classes
+    "B027",
+    # Allow boolean positional values in function calls, like `dict.get(... True)`
+    "FBT003",
+    # Ignore checks for possible passwords
+    "S105", "S106", "S107",
+    # Ignore complexity
+    "C901", "PLR0911", "PLR0912", "PLR0913", "PLR0915",
+]
+unfixable = [
+    # Don't touch unused imports
+    "F401",
+]
+
+[tool.ruff.isort]
+known-first-party = ["jupyter_server_client"]
+
+[tool.ruff.flake8-tidy-imports]
+ban-relative-imports = "all"
+
+[tool.ruff.per-file-ignores]
+# Tests can use magic values, assertions, and relative imports
+"tests/**/*" = ["PLR2004", "S101", "TID252"]
+
+[tool.coverage.run]
+source_pkgs = ["jupyter_server_client", "tests"]
+branch = true
+relative_files = true
+omit = [
+    "*/jupyter_server_client/_version.py",
+    "*/tests/*",
+]
+
+[tool.coverage.paths]
+jupyter_server_client = ["src/jupyter_server_client", "*/jupyter_server_client/src/jupyter_server_client"]
+tests = ["tests", "*/tests"]
+
+[tool.coverage.report]
+exclude_lines = [
+  "pragma: no cover",
+  "def __repr__",
+  "if self.debug:",
+  "if settings.DEBUG",
+  "raise AssertionError",
+  "raise NotImplementedError",
+  "if 0:",
+  "if __name__ == .__main__.:",
+  "class .*\bProtocol\\):",
+  "@(abc\\.)?abstractmethod",
+]
+
+[tool.mypy]
+files = "jupyter_server_client"
+python_version = "3.8"
+error_summary = true
+strict = true
+enable_error_code = ["ignore-without-code", "redundant-expr", "truthy-bool"]
+warn_unreachable = true
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+xfail_strict = true
+log_cli_level = "info"
+addopts = [
+  "-ra", "-q", "--strict-markers", "--strict-config",
+  "--cov=jupyter_server_client", "--cov-branch", "--cov-report=term-missing:skip-covered", "--cov-fail-under=85",
+  "--tb=short"
+]
+testpaths = [
+    "tests",
+]
+asyncio_mode = "auto"
+timeout = 300
+filterwarnings = [
+    # When running tests in parallel, pytest-xdist workers are created and destroyed.
+    # This can cause ResourceWarnings to be emitted when the worker processes are terminated.
+    "ignore::ResourceWarning",
+]
