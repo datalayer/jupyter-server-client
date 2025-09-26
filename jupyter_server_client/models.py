@@ -55,7 +55,7 @@ class Session(JupyterModel):
     
     id: str = Field(..., description="Unique session ID")
     path: str = Field(..., description="Path to the session file")
-    name: str = Field(..., description="Name of the session")
+    name: Optional[str] = Field(None, description="Name of the session")
     type: str = Field(..., description="Session type (notebook, file, etc.)")
     kernel: Optional[KernelInfo] = Field(None, description="Associated kernel info")
 
@@ -67,10 +67,9 @@ class Terminal(JupyterModel):
     last_activity: Optional[datetime] = Field(None, description="Last activity timestamp")
 
 
-class KernelSpec(JupyterModel):
-    """Model for kernel specification information."""
+class KernelSpecDetails(JupyterModel):
+    """Model for kernel specification details (inside 'spec' field)."""
     
-    name: str = Field(..., description="Kernel spec name")
     display_name: str = Field(..., description="Display name for the kernel")
     language: str = Field(..., description="Programming language")
     argv: List[str] = Field(..., description="Command line arguments to start kernel")
@@ -80,6 +79,15 @@ class KernelSpec(JupyterModel):
         None, description="CodeMirror mode"
     )
     help_links: Optional[List[Dict[str, str]]] = Field(None, description="Help links")
+    metadata: Optional[Dict[str, Any]] = Field(None, description="Additional metadata")
+
+
+class KernelSpec(JupyterModel):
+    """Model for kernel specification information."""
+    
+    name: str = Field(..., description="Kernel spec name")
+    spec: KernelSpecDetails = Field(..., description="Kernel specification details")
+    resources: Optional[Dict[str, str]] = Field(None, description="Kernel resources (logos, etc.)")
 
 
 class KernelSpecs(JupyterModel):
