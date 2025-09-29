@@ -6,7 +6,7 @@
 
 from typing import Any, List
 
-from jupyter_server_client.models import Terminal
+from jupyter_server_api.models import Terminal
 
 
 class TerminalsManager:

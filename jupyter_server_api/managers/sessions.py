@@ -6,7 +6,7 @@
 
 from typing import Any, Dict, List, Optional, Union
 
-from jupyter_server_client.models import Session
+from jupyter_server_api.models import Session
 
 
 class SessionsManager:

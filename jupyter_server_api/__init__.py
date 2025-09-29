@@ -4,8 +4,8 @@
 
 """Jupyter Server Client - A Python client for Jupyter Server REST API."""
 
-from jupyter_server_client.client import JupyterServerClient, AsyncJupyterServerClient
-from jupyter_server_client.exceptions import (
+from jupyter_server_api.client import JupyterServerClient, AsyncJupyterServerClient
+from jupyter_server_api.exceptions import (
     JupyterServerError,
     BadRequestError,
     ForbiddenError,
@@ -14,7 +14,7 @@ from jupyter_server_client.exceptions import (
     AuthenticationError,
     JupyterConnectionError,
 )
-from jupyter_server_client.models import (
+from jupyter_server_api.models import (
     Contents,
     KernelInfo, 
     Session,

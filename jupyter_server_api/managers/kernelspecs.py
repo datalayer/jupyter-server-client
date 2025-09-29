@@ -6,7 +6,7 @@
 
 from typing import Any
 
-from jupyter_server_client.models import KernelSpecs
+from jupyter_server_api.models import KernelSpecs
 
 
 class KernelSpecsManager:

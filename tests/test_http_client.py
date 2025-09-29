@@ -4,7 +4,7 @@ Tests for HTTP client functionality.
 
 import unittest
 from unittest.mock import Mock, patch
-from jupyter_server_client.http_client import http_client
+from jupyter_server_api.http_client import http_client
 
 
 class TestHTTPClient(unittest.TestCase):

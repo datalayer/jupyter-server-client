@@ -4,7 +4,7 @@ Tests for data models.
 
 import unittest
 
-from jupyter_server_client.models import Kernel
+from jupyter_server_api.models import Kernel
 
 
 class TestModels(unittest.TestCase):

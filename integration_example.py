@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Comprehensive example showing integration of all Datalayer Jupyter clients:
-- jupyter-server-client: Server management + kernel listing (read-only)
+- jupyter-server-api: Server management + kernel listing (read-only)
 - jupyter-kernel-client: Kernel management and code execution  
 - jupyter-nbmodel-client: Real-time notebook collaboration
 
@@ -27,11 +27,11 @@ def main():
     print(f"Server: {base_url}")
     
     try:
-        # 1. SERVER MANAGEMENT (jupyter-server-client)
-        print("\n📊 1. SERVER MANAGEMENT (jupyter-server-client)")
+        # 1. SERVER MANAGEMENT (jupyter-server-api)
+        print("\n📊 1. SERVER MANAGEMENT (jupyter-server-api)")
         print("-" * 45)
         
-        from jupyter_server_client import JupyterServerClient
+        from jupyter_server_api import JupyterServerClient
         
         with JupyterServerClient(base_url=base_url, token=token) as server:
             # Server status
@@ -137,7 +137,7 @@ def main():
         
         print(f"\n🎊 Integration example completed successfully!")
         print("\nThis demonstrates how the three libraries work together:")
-        print("• jupyter-server-client: Server and content management") 
+        print("• jupyter-server-api: Server and content management") 
         print("• jupyter-kernel-client: Kernel operations and execution")
         print("• jupyter-nbmodel-client: Real-time collaborative editing")
         
@@ -150,7 +150,7 @@ def main():
         print("2. The URL is correct") 
         print("3. The token is valid (if required)")
         print("4. Required packages are installed:")
-        print("   pip install jupyter-server-client jupyter-kernel-client jupyter-nbmodel-client")
+        print("   pip install jupyter-server-api jupyter-kernel-client jupyter-nbmodel-client")
         return 1
 
 

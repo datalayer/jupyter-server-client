@@ -1,6 +1,6 @@
-# Tests for jupyter-server-client
+# Tests for jupyter-server-api
 
-This directory contains comprehensive tests for the `jupyter-server-client` library.
+This directory contains comprehensive tests for the `jupyter-server-api` library.
 
 ## Test Structure
 
@@ -115,7 +115,7 @@ When adding new functionality, follow these patterns:
 ```python
 import unittest
 from unittest.mock import Mock, patch
-from jupyter_server_client.your_module import YourClass
+from jupyter_server_api.your_module import YourClass
 
 class TestYourClass(unittest.TestCase):
     def setUp(self):

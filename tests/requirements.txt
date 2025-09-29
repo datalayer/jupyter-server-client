@@ -1,4 +1,4 @@
-# Test dependencies for jupyter-server-client
+# Test dependencies for jupyter-server-api
 # These are additional dependencies needed only for testing
 
 # Testing framework (alternative to pytest for simpler setup)
