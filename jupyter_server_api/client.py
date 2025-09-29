@@ -6,15 +6,15 @@
 
 from typing import Any, Dict, Optional
 
-from jupyter_server_client.http_client import BaseHTTPClient
-from jupyter_server_client.managers import (
+from jupyter_server_api.http_client import BaseHTTPClient
+from jupyter_server_api.managers import (
     ContentsManager,
     SessionsManager, 
     TerminalsManager,
     KernelSpecsManager,
     KernelsManager,
 )
-from jupyter_server_client.models import ServerInfo, APIStatus, Identity
+from jupyter_server_api.models import ServerInfo, APIStatus, Identity
 
 
 class JupyterServerClient:

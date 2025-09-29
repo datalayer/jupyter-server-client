@@ -4,7 +4,7 @@ Tests for HTTP client functionality.
 
 import unittest
 from unittest.mock import Mock, patch
-from jupyter_server_api.http_client import http_client
+from jupyter_server_api.http_client import BaseHTTPClient
 
 
 class TestHTTPClient(unittest.TestCase):
@@ -14,7 +14,7 @@ class TestHTTPClient(unittest.TestCase):
         """Set up test fixtures."""
         self.base_url = "http://localhost:8888"
         self.token = "test-token-123"
-        self.client = HTTPClient(self.base_url, token=self.token)
+        self.client = BaseHTTPClient(self.base_url, token=self.token)
 
     def test_client_initialization(self):
         """Test HTTP client initialization."""
