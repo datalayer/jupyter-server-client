@@ -13,6 +13,7 @@ from jupyter_server_api.managers import (
     TerminalsManager,
     KernelSpecsManager,
     KernelsManager,
+    ExecsManager,
 )
 from jupyter_server_api.models import ServerInfo, APIStatus, Identity
 
@@ -60,6 +61,7 @@ class JupyterServerClient:
         self.terminals = TerminalsManager(self.http_client)
         self.kernelspecs = KernelSpecsManager(self.http_client)
         self.kernels = KernelsManager(self.http_client)
+        self.execs = ExecsManager(self.http_client)
     
     def get_version(self) -> ServerInfo:
         """Get Jupyter Server version information.
