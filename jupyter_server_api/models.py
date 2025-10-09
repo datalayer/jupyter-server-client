@@ -137,3 +137,44 @@ class ErrorResponse(JupyterModel):
     message: Optional[str] = Field(None, description="Detailed error message")
     reason: Optional[str] = Field(None, description="Error reason")
     traceback: Optional[str] = Field(None, description="Error traceback")
+
+
+class ExecutionRequest(JupyterModel):
+    """Model for kernel execution request.
+    
+    Used with the undocumented /api/kernels/{kernel_id}/execute endpoint.
+    """
+    
+    code: str = Field(..., description="Python code to execute")
+    silent: bool = Field(False, description="Whether to execute silently (no broadcast)")
+    store_history: bool = Field(True, description="Whether to store in history")
+    user_expressions: Optional[Dict[str, str]] = Field(
+        None, description="User expressions to evaluate"
+    )
+    allow_stdin: bool = Field(False, description="Whether to allow stdin")
+    stop_on_error: bool = Field(True, description="Whether to stop on error")
+
+
+class ExecutionResult(JupyterModel):
+    """Model for kernel execution result.
+    
+    Returned by the /api/kernels/{kernel_id}/executions/{execution_id} endpoint.
+    """
+    
+    status: str = Field(..., description="Execution status (ok, error, or aborted)")
+    execution_count: int = Field(..., description="Execution counter")
+    outputs: Union[str, List[Dict[str, Any]]] = Field(
+        ..., description="Execution outputs (may be JSON string or list)"
+    )
+    
+    @property
+    def parsed_outputs(self) -> List[Dict[str, Any]]:
+        """Parse outputs if they're a JSON string.
+        
+        Returns:
+            List of output dictionaries
+        """
+        if isinstance(self.outputs, str):
+            import json
+            return json.loads(self.outputs)
+        return self.outputs

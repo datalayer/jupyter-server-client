@@ -26,6 +26,7 @@ This library works alongside existing Datalayer clients:
 - **Contents Management**: File and directory operations (create, read, update, delete)
 - **Session Management**: Notebook-kernel session handling
 - **Kernel Listing**: List and inspect running kernels (read-only)
+- **Kernel Execution**: Simple synchronous code execution via undocumented API (ExecsManager)
 - **Server Status**: Server information and health monitoring  
 - **Terminal Management**: Server terminal operations
 - **KernelSpec Info**: Available kernel specifications discovery
@@ -226,6 +227,45 @@ info = client.terminals.get_terminal(terminal_name)
 # Delete a terminal
 client.terminals.delete_terminal(terminal_name)
 ```
+
+### Execs API (Undocumented)
+
+⚠️ **Warning**: This uses an undocumented Jupyter Server API that may change without notice.
+
+The ExecsManager provides simple synchronous code execution without WebSocket complexity. See [EXECS_MANAGER.md](EXECS_MANAGER.md) for detailed documentation.
+
+```python
+# Execute code in a kernel
+kernels = client.kernels.list_kernels()
+kernel_id = kernels[0].id
+
+result = client.execs.execute(kernel_id, "print('Hello, World!')")
+print(f"Status: {result.status}")
+print(f"Outputs: {result.parsed_outputs}")
+
+# Execute with timeout
+result = client.execs.execute(
+    kernel_id,
+    "import time; time.sleep(2); print('Done!')",
+    timeout=5.0
+)
+
+# Get previous execution result
+result = client.execs.get_execution_result(kernel_id, execution_id)
+```
+
+**When to use ExecsManager:**
+- ✅ Simple, synchronous code execution
+- ✅ Avoiding WebSocket complexity  
+- ✅ Quick scripts and tools
+
+**When to use jupyter-kernel-client instead:**
+- ✅ Full kernel lifecycle management
+- ✅ Real-time output streaming
+- ✅ Code interruption support
+- ✅ Production applications
+
+See [example_execs.py](example_execs.py) for a complete working example.
 
 ### Server Info
 

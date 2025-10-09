@@ -6,8 +6,8 @@ build-backend = "hatchling.build"
 
 [project]
 name = "jupyter-server-api"
-version = "0.1.0"
-description = "A client library for interacting with Jupyter servers - focused on server management and kernel listing"
+version = "0.1.1"
+description = "A client library for interacting with Jupyter servers - focused on HTTP REST API."
 readme = "README.md"
 license = { file = "LICENSE" }
 authors = [
