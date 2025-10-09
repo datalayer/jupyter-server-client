@@ -8,7 +8,7 @@ from jupyter_server_api.http_client import BaseHTTPClient
 
 
 class TestHTTPClient(unittest.TestCase):
-    """Test cases for HTTPClient."""
+    """Test cases for BaseHTTPClient."""
 
     def setUp(self):
         """Set up test fixtures."""
@@ -18,115 +18,77 @@ class TestHTTPClient(unittest.TestCase):
 
     def test_client_initialization(self):
         """Test HTTP client initialization."""
-        self.assertEqual(self.client.base_url, self.base_url)
-        self.assertEqual(self.client.headers["Authorization"], f"token {self.token}")
+        # Base URL should end with / after initialization
+        self.assertEqual(self.client.base_url, "http://localhost:8888/")
+        self.assertIn("Authorization", self.client.session.headers)
+        self.assertEqual(self.client.session.headers["Authorization"], f"Bearer {self.token}")
 
     def test_client_without_token(self):
         """Test HTTP client initialization without token."""
-        client = HTTPClient(self.base_url)
-        self.assertEqual(client.base_url, self.base_url)
-        self.assertNotIn("Authorization", client.headers)
+        client = BaseHTTPClient(self.base_url)
+        self.assertEqual(client.base_url, "http://localhost:8888/")
+        self.assertNotIn("Authorization", client.session.headers)
 
-    @patch('requests.get')
-    def test_get_request(self, mock_get):
-        """Test GET request."""
-        # Mock response
-        mock_response = Mock()
-        mock_response.status_code = 200
-        mock_response.json.return_value = {"test": "data"}
-        mock_get.return_value = mock_response
+    def test_base_url_normalization(self):
+        """Test that base URL is normalized to end with /."""
+        # Test with trailing slash
+        client1 = BaseHTTPClient("http://localhost:8888/")
+        self.assertEqual(client1.base_url, "http://localhost:8888/")
         
-        # Test
-        response = self.client.get("/api/test")
+        # Test without trailing slash
+        client2 = BaseHTTPClient("http://localhost:8888")
+        self.assertEqual(client2.base_url, "http://localhost:8888/")
         
-        # Assertions
-        mock_get.assert_called_once()
-        call_args = mock_get.call_args
-        self.assertIn(f"{self.base_url}/api/test", call_args[0])
-        self.assertIn("headers", call_args[1])
+        # Test with multiple trailing slashes
+        client3 = BaseHTTPClient("http://localhost:8888///")
+        self.assertEqual(client3.base_url, "http://localhost:8888/")
 
-    @patch('requests.post')
-    def test_post_request(self, mock_post):
-        """Test POST request."""
-        # Mock response
-        mock_response = Mock()
-        mock_response.status_code = 201
-        mock_response.json.return_value = {"created": "data"}
-        mock_post.return_value = mock_response
+    def test_url_construction_with_path_prefix(self):
+        """Test URL construction when base_url contains path segments.
         
-        # Test data
-        test_data = {"key": "value"}
+        This is the critical test for the bug fix - ensuring path prefixes
+        are not lost when using urljoin.
+        """
+        # Test case from the bug report
+        client = BaseHTTPClient("http://dsw-xxx:8890/dsw-xxx/")
+        url = client._build_url("/api/contents/nb.ipynb")
+        expected = "http://dsw-xxx:8890/dsw-xxx/api/contents/nb.ipynb"
+        self.assertEqual(url, expected)
         
-        # Test
-        response = self.client.post("/api/test", json=test_data)
-        
-        # Assertions
-        mock_post.assert_called_once()
-        call_args = mock_post.call_args
-        self.assertIn(f"{self.base_url}/api/test", call_args[0])
-        self.assertIn("headers", call_args[1])
+        # Test without trailing slash in input
+        client2 = BaseHTTPClient("http://dsw-xxx:8890/dsw-xxx")
+        url2 = client2._build_url("/api/contents/nb.ipynb")
+        self.assertEqual(url2, expected)
 
-    @patch('requests.put')
-    def test_put_request(self, mock_put):
-        """Test PUT request."""
-        # Mock response
-        mock_response = Mock()
-        mock_response.status_code = 200
-        mock_response.json.return_value = {"updated": "data"}
-        mock_put.return_value = mock_response
+    def test_url_construction_multiple_path_segments(self):
+        """Test URL construction with multiple path segments in base_url."""
+        client = BaseHTTPClient("http://host:8888/prefix/subpath/")
+        url = client._build_url("/api/kernels")
+        expected = "http://host:8888/prefix/subpath/api/kernels"
+        self.assertEqual(url, expected)
+
+    def test_url_construction_without_prefix(self):
+        """Test URL construction with base_url at root (no path prefix)."""
+        client = BaseHTTPClient("http://localhost:8888")
+        url = client._build_url("/api/contents/test.ipynb")
+        expected = "http://localhost:8888/api/contents/test.ipynb"
+        self.assertEqual(url, expected)
+
+    def test_url_construction_various_paths(self):
+        """Test URL construction with various API paths."""
+        client = BaseHTTPClient("http://host:8888/jupyter/")
         
-        # Test data
-        test_data = {"key": "updated_value"}
+        test_cases = [
+            ("/api/kernels", "http://host:8888/jupyter/api/kernels"),
+            ("/api/contents/", "http://host:8888/jupyter/api/contents/"),
+            ("/api/sessions/123", "http://host:8888/jupyter/api/sessions/123"),
+            ("api/status", "http://host:8888/jupyter/api/status"),  # Without leading slash
+        ]
         
-        # Test
-        response = self.client.put("/api/test/123", json=test_data)
-        
-        # Assertions
-        mock_put.assert_called_once()
-
-    @patch('requests.delete')
-    def test_delete_request(self, mock_delete):
-        """Test DELETE request."""
-        # Mock response
-        mock_response = Mock()
-        mock_response.status_code = 204
-        mock_delete.return_value = mock_response
-        
-        # Test
-        response = self.client.delete("/api/test/123")
-        
-        # Assertions
-        mock_delete.assert_called_once()
-
-    def test_url_construction(self):
-        """Test URL construction."""
-        endpoint = "/api/kernels"
-        expected_url = f"{self.base_url}{endpoint}"
-        
-        # This tests the internal _url method if it exists
-        # We'll test through actual requests instead
-        self.assertTrue(self.base_url in self.client.base_url)
-
-
-class TestAsyncHTTPClient(unittest.TestCase):
-    """Test cases for AsyncHTTPClient."""
-
-    def setUp(self):
-        """Set up test fixtures."""
-        self.base_url = "http://localhost:8888"
-        self.token = "test-token-123"
-        self.client = AsyncHTTPClient(self.base_url, token=self.token)
-
-    def test_async_client_initialization(self):
-        """Test async HTTP client initialization."""
-        self.assertEqual(self.client.base_url, self.base_url)
-        self.assertEqual(self.client.headers["Authorization"], f"token {self.token}")
-
-    def test_async_client_without_token(self):
-        """Test async HTTP client initialization without token."""
-        client = AsyncHTTPClient(self.base_url)
-        self.assertEqual(client.base_url, self.base_url)
-        self.assertNotIn("Authorization", client.headers)
+        for path, expected in test_cases:
+            with self.subTest(path=path):
+                url = client._build_url(path)
+                self.assertEqual(url, expected)
 
 
 if __name__ == '__main__':

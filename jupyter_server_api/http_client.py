@@ -45,7 +45,11 @@ class BaseHTTPClient:
             max_retries: Maximum number of retries
             retry_delay: Delay between retries
         """
-        self.base_url = base_url.rstrip("/")
+        # Ensure base_url ends with "/" so urljoin treats it as a directory
+        # This prevents path segments from being lost when base_url contains paths
+        # e.g., "http://host/prefix" + "/api" would become "http://host/api" (wrong)
+        # but "http://host/prefix/" + "api" becomes "http://host/prefix/api" (correct)
+        self.base_url = base_url.rstrip("/") + "/"
         self.token = token
         self.timeout = timeout
         self.verify_ssl = verify_ssl
