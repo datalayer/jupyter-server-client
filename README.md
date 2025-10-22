@@ -10,8 +10,8 @@
 
 # 🪐 Jupyter Server Client
 
-[![Github Actions Status](https://github.com/datalayer/jupyter-server-api/workflows/Build/badge.svg)](https://github.com/datalayer/jupyter-server-api/actions/workflows/build.yml)
-[![PyPI - Version](https://img.shields.io/pypi/v/jupyter-server-api)](https://pypi.org/project/jupyter-server-api)
+[![Github Actions Status](https://github.com/datalayer/jupyter-server-client/workflows/Build/badge.svg)](https://github.com/datalayer/jupyter-server-client/actions/workflows/build.yml)
+[![PyPI - Version](https://img.shields.io/pypi/v/jupyter-server-client)](https://pypi.org/project/jupyter-server-client)
 
 `Jupyter Server Client` is a Python library to interact with Jupyter Server REST API for server management operations. It provides server-level functionality including kernel listing (read-only) while avoiding duplication with existing kernel management libraries.
 
@@ -36,7 +36,7 @@ This library works alongside existing Datalayer clients:
 To install the library, run the following command:
 
 ```bash
-pip install jupyter_server_api
+pip install jupyter_server_client
 ```
 
 ## Quick Start
@@ -48,7 +48,7 @@ See [integration_example.py](integration_example.py) for a comprehensive example
 ### Context Manager
 
 ```python
-from jupyter_server_api import JupyterServerClient
+from jupyter_server_client import JupyterServerClient
 
 # Server and content management
 with JupyterServerClient("http://localhost:8888", token="your-token") as client:
@@ -104,7 +104,7 @@ The client also supports async operations:
 
 ```python
 import asyncio
-from jupyter_server_api import AsyncJupyterServerClient
+from jupyter_server_client import AsyncJupyterServerClient
 
 async def main():
     async with AsyncJupyterServerClient(
@@ -248,7 +248,7 @@ kernelspecs = client.kernelspecs.list_kernelspecs()
 The client provides specific exceptions for different types of errors:
 
 ```python
-from jupyter_server_api import (
+from jupyter_server_client import (
     JupyterServerClient, 
     JupyterServerError,
     NotFoundError,
@@ -272,7 +272,7 @@ except JupyterServerError as e:
 You can configure the client behavior:
 
 ```python
-from jupyter_server_api import JupyterServerClient
+from jupyter_server_client import JupyterServerClient
 
 client = JupyterServerClient(
     base_url="http://localhost:8888",
@@ -315,8 +315,8 @@ client = JupyterServerClient(
 
 ```bash
 # Clone the repository
-git clone https://github.com/datalayer/jupyter-server-api.git
-cd jupyter-server-api
+git clone https://github.com/datalayer/jupyter-server-client.git
+cd jupyter-server-client
 
 # Install in development mode
 pip install -e ".[test,lint,typing]"
@@ -332,7 +332,7 @@ pip install -e ".[test]"
 pytest
 
 # Run tests with coverage
-pytest --cov=jupyter_server_api --cov-report=html
+pytest --cov=jupyter_server_client --cov-report=html
 ```
 
 ### Code Quality
@@ -346,7 +346,7 @@ ruff check .
 ruff format .
 
 # Type checking
-mypy jupyter_server_api
+mypy jupyter_server_client
 ```
 
 ## Contributing

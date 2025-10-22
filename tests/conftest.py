@@ -1,10 +1,10 @@
 """
-Test configuration and fixtures for jupyter-server-api tests.
+Test configuration and fixtures for jupyter-server-client tests.
 """
 
 import pytest
 from unittest.mock import Mock, AsyncMock
-from jupyter_server_api import JupyterServerClient
+from jupyter_server_client import JupyterServerClient
 
 
 @pytest.fixture

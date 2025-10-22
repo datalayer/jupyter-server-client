@@ -5,7 +5,7 @@ requires = [
 build-backend = "hatchling.build"
 
 [project]
-name = "jupyter-server-api"
+name = "jupyter-server-client"
 version = "0.1.1"
 description = "A client library for interacting with Jupyter servers - focused on server management and kernel listing"
 readme = "README.md"
@@ -58,10 +58,10 @@ typing = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/datalayer/jupyter-server-api"
-Documentation = "https://github.com/datalayer/jupyter-server-api#readme"
-Repository = "https://github.com/datalayer/jupyter-server-api.git"
-Issues = "https://github.com/datalayer/jupyter-server-api/issues"
+Homepage = "https://github.com/datalayer/jupyter-server-client"
+Documentation = "https://github.com/datalayer/jupyter-server-client#readme"
+Repository = "https://github.com/datalayer/jupyter-server-client.git"
+Issues = "https://github.com/datalayer/jupyter-server-client/issues"
 
 # Tool configurations
 
@@ -89,7 +89,7 @@ unfixable = [
 ]
 
 [tool.ruff.isort]
-known-first-party = ["jupyter_server_api"]
+known-first-party = ["jupyter_server_client"]
 
 [tool.ruff.flake8-tidy-imports]
 ban-relative-imports = "all"
@@ -99,16 +99,16 @@ ban-relative-imports = "all"
 "tests/**/*" = ["PLR2004", "S101", "TID252"]
 
 [tool.coverage.run]
-source_pkgs = ["jupyter_server_api", "tests"]
+source_pkgs = ["jupyter_server_client", "tests"]
 branch = true
 relative_files = true
 omit = [
-    "*/jupyter_server_api/_version.py",
+    "*/jupyter_server_client/_version.py",
     "*/tests/*",
 ]
 
 [tool.coverage.paths]
-jupyter_server_api = ["src/jupyter_server_api", "*/jupyter_server_api/src/jupyter_server_api"]
+jupyter_server_client = ["src/jupyter_server_client", "*/jupyter_server_client/src/jupyter_server_client"]
 tests = ["tests", "*/tests"]
 
 [tool.coverage.report]
@@ -126,7 +126,7 @@ exclude_lines = [
 ]
 
 [tool.mypy]
-files = "jupyter_server_api"
+files = "jupyter_server_client"
 python_version = "3.8"
 error_summary = true
 strict = true
@@ -139,7 +139,7 @@ xfail_strict = true
 log_cli_level = "info"
 addopts = [
   "-ra", "-q", "--strict-markers", "--strict-config",
-  "--cov=jupyter_server_api", "--cov-branch", "--cov-report=term-missing:skip-covered", "--cov-fail-under=85",
+  "--cov=jupyter_server_client", "--cov-branch", "--cov-report=term-missing:skip-covered", "--cov-fail-under=85",
   "--tb=short"
 ]
 testpaths = [

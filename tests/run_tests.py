@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Test runner script for jupyter-server-api.
+Test runner script for jupyter-server-client.
 
 This script runs all tests and provides a summary of the results.
 """
@@ -9,7 +9,7 @@ import unittest
 import sys
 import os
 
-# Add the parent directory to the path so we can import jupyter_server_api
+# Add the parent directory to the path so we can import jupyter_server_client
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
 
@@ -62,7 +62,7 @@ def run_specific_test(test_name):
 
 
 if __name__ == '__main__':
-    print("🧪 Running jupyter-server-api tests...")
+    print("🧪 Running jupyter-server-client tests...")
     print("=" * 70)
     
     if len(sys.argv) > 1:

@@ -4,7 +4,7 @@ Tests for the main JupyterServerClient class.
 
 import unittest
 
-from jupyter_server_api import JupyterServerClient
+from jupyter_server_client import JupyterServerClient
 
 
 class TestJupyterServerClient(unittest.TestCase):

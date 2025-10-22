@@ -12,7 +12,7 @@ import requests
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
-from jupyter_server_api.exceptions import (
+from jupyter_server_client.exceptions import (
     JupyterConnectionError,
     JupyterTimeoutError,
     create_error_from_response,

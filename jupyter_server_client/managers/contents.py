@@ -8,7 +8,7 @@ import json
 from typing import Any, Dict, List, Optional, Union
 from urllib.parse import quote
 
-from jupyter_server_api.models import Contents
+from jupyter_server_client.models import Contents
 
 
 class ContentsManager:

@@ -4,8 +4,8 @@ Tests for the KernelsManager class.
 
 import unittest
 from unittest.mock import Mock
-from jupyter_server_api.managers.kernels import KernelsManager
-from jupyter_server_api.models import Kernel
+from jupyter_server_client.managers.kernels import KernelsManager
+from jupyter_server_client.models import Kernel
 
 
 class TestKernelsManager(unittest.TestCase):
