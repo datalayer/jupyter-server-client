@@ -12,7 +12,7 @@
 1. Clone or download this repository
 2. Navigate to the project directory:
    ```bash
-   cd jupyter-server-api
+   cd jupyter-server-client
    ```
 
 3. Install in development mode:
@@ -23,7 +23,7 @@
 ### From PyPI (Future)
 
 ```bash
-pip install jupyter-server-api
+pip install jupyter-server-client
 ```
 
 ## Setting up Jupyter Server
@@ -66,7 +66,7 @@ jupyter server list
 ## Quick Start
 
 ```python
-from jupyter_server_api import JupyterServerClient
+from jupyter_server_client import JupyterServerClient
 
 # Replace with your server URL and token
 client = JupyterServerClient(
@@ -142,4 +142,4 @@ You can use environment variables for configuration:
 
 - Read the [API Documentation](README.md#api-reference) for detailed usage
 - Check the [example.py](example.py) for comprehensive examples
-- Explore the source code in the `jupyter_server_api/` directory
+- Explore the source code in the `jupyter_server_client/` directory

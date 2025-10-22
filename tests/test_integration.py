@@ -1,10 +1,10 @@
 """
-Integration tests for jupyter-server-api.
+Integration tests for jupyter-server-client.
 """
 
 import unittest
 from unittest.mock import patch
-from jupyter_server_api import JupyterServerClient
+from jupyter_server_client import JupyterServerClient
 
 
 class TestIntegration(unittest.TestCase):
@@ -19,7 +19,7 @@ class TestIntegration(unittest.TestCase):
     def test_complete_workflow_simulation(self):
         """Test a complete workflow simulation with mocked responses."""
         # This test simulates a real workflow but with mocked HTTP calls
-        from jupyter_server_api.models import Kernel
+        from jupyter_server_client.models import Kernel
         from datetime import datetime
         
         # Test 1: List kernels (should be our main functionality)  
@@ -60,10 +60,10 @@ class TestIntegration(unittest.TestCase):
         print("📚 Datalayer Jupyter Ecosystem Integration Test")
         print("=" * 50)
         
-        # 1. Use jupyter-server-api to list available kernels
-        print("🔍 Step 1: List available kernels (jupyter-server-api)")
+        # 1. Use jupyter-server-client to list available kernels
+        print("🔍 Step 1: List available kernels (jupyter-server-client)")
         with patch.object(self.client.kernels, 'list_kernels') as mock_list:
-            from jupyter_server_api.models import Kernel
+            from jupyter_server_client.models import Kernel
             from datetime import datetime
             mock_list.return_value = [
                 Kernel(

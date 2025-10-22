@@ -30,18 +30,18 @@ help:
 
 # Run all tests
 test:
-	@echo "🧪 Running jupyter-server-api tests..."
+	@echo "🧪 Running jupyter-server-client tests..."
 	cd $(TEST_DIR) && $(PYTHON) run_tests.py
 
 # Run tests with verbose output
 test-verbose:
-	@echo "🧪 Running jupyter-server-api tests (verbose)..."
+	@echo "🧪 Running jupyter-server-client tests (verbose)..."
 	cd $(TEST_DIR) && $(PYTHON) -m unittest discover -v
 
 # Run tests with coverage (requires coverage package)
 test-coverage:
 	@echo "🧪 Running tests with coverage..."
-	coverage run --source=../jupyter_server_api -m unittest discover $(TEST_DIR)
+	coverage run --source=../jupyter_server_client -m unittest discover $(TEST_DIR)
 	coverage report -m
 	coverage html
 
@@ -73,5 +73,5 @@ publish-pypi: # publish the pypi package
 	@exec echo
 	@exec echo twine upload ./dist/*-py3-none-any.whl
 	@exec echo
-	@exec echo https://pypi.org/project/jupyter-server-api/#history
+	@exec echo https://pypi.org/project/jupyter-server-client/#history
 

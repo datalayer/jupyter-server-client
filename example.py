@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Example usage of jupyter-server-api library with Datalayer integration.
+Example usage of jupyter-server-client library with Datalayer integration.
 
 This script demonstrates how to use the server client alongside existing
 jupyter-nbmodel-client and jupyter-kernel-client for comprehensive Jupyter operations.
@@ -14,7 +14,7 @@ from pathlib import Path
 # Add the package to the path for testing
 sys.path.insert(0, str(Path(__file__).parent))
 
-from jupyter_server_api import JupyterServerClient, JupyterServerError
+from jupyter_server_client import JupyterServerClient, JupyterServerError
 
 
 def main():

@@ -1,1 +1,1 @@
-# Test package for jupyter-server-api
+# Test package for jupyter-server-client
