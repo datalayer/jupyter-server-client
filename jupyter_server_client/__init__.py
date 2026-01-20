@@ -5,6 +5,8 @@
 """Jupyter Server Client - A Python client for Jupyter Server REST API."""
 
 from jupyter_server_client.client import AsyncJupyterServerClient, JupyterServerClient
+from jupyter_server_client.http_client import BaseHTTPClient
+from jupyter_server_client.async_http_client import AsyncBaseHTTPClient
 from jupyter_server_client.exceptions import (
     JupyterServerError,
     BadRequestError,

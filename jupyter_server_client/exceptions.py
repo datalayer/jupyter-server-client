@@ -70,6 +70,11 @@ class ValidationError(JupyterServerError):
     """Exception raised when input validation fails."""
 
 
+# Aliases for async_http_client compatibility
+JupyterNotFoundError = NotFoundError
+JupyterAuthenticationError = AuthenticationError
+
+
 def create_error_from_response(
     response: requests.Response,
     message: Optional[str] = None,
